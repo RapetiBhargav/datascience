@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 from sklearn import neighbors, model_selection, preprocessing
 
 dir = 'E:/'
@@ -7,10 +8,9 @@ titanic_train = pd.read_csv(os.path.join(dir, 'train.csv'))
 print(titanic_train.info())
 print(titanic_train.columns)
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+age_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =age_imputer.fit_transform(titanic_train[['Age']]) 
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex', 'Age_imputed']
 titanic_train1 = pd.get_dummies(titanic_train[features])

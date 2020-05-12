@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 from sklearn import tree, ensemble, model_selection, preprocessing
-import io
+import numpy as np
 import pydot
 import seaborn as sns
 
@@ -10,12 +10,12 @@ titanic_train = pd.read_csv(os.path.join(dir, 'train.csv'))
 print(titanic_train.info())
 print(titanic_train.columns)
 
-age_imputer = preprocessing.Imputer()
-age_imputer.fit(titanic_train[['Age']])
-titanic_train['Age_imputed'] = age_imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+age_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =age_imputer.fit_transform(titanic_train[['Age']]) 
 
-fare_imputer = preprocessing.Imputer()
-fare_imputer.fit(titanic_train[['Fare']])
+fare_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+fare_imputer.fit(titanic_train[['Fare']]) 
 
 sns.countplot(x='Embarked',data=titanic_train)
 titanic_train.loc[titanic_train['Embarked'].isnull(), 'Embarked'] = 'S'
@@ -26,7 +26,8 @@ sns.boxplot(x='SibSp',data=titanic_train)
 sns.FacetGrid(titanic_train, hue="Survived",size=8).map(sns.kdeplot, "SibSp").add_legend()
 
 sns.countplot(x='Parch', data=titanic_train)
-sns.distplot(titanic_train['Parch'], hist=False)
+#Check these 3 out later
+sns.distplot(titanic_train['Parch'], hist=True)
 sns.boxplot(x='Parch',data=titanic_train)
 sns.FacetGrid(titanic_train, hue="Survived",size=8).map(sns.kdeplot, "Parch").add_legend()
 
@@ -124,6 +125,7 @@ titanic_test['Title'] = titanic_test['Name'].map(extract_title)
 titanic_test['FamilyGroup'] = titanic_test['FamilySize'].map(convert_familysize)
 sns.countplot(x='Title',data=titanic_test)
 sns.countplot(x='Title',data=titanic_train)
+#Check this
 titanic_test.loc[titanic_test['Title']=='Dona', 'Title'] = 'Mrs'
 
 titanic_test['Sex_encoded'] = sex_encoder.transform(titanic_test['Sex'])

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import os
 from sklearn import tree, ensemble, model_selection, preprocessing
 import io
@@ -14,10 +15,10 @@ lencoder.fit(titanic_train['Sex'])
 print(lencoder.classes_)
 titanic_train['Sex_encoded'] = lencoder.transform(titanic_train['Sex'])
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =imp.fit_transform(titanic_train[['Age']]) 
+print(imp.statistics_)
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex_encoded', 'Age_imputed']
 X = titanic_train[ features ]
@@ -32,15 +33,19 @@ rf_grid_estimator = model_selection.GridSearchCV(rf_estimator, rf_grid, scoring=
 rf_grid_estimator.fit(X_train, y_train)
 print(rf_grid_estimator.best_params_)
 print(rf_grid_estimator.best_score_)
+print(rf_grid_estimator.best_estimator_)
+#This gave details of the random forrest
 print(rf_grid_estimator.best_estimator_.estimators_)
+#This gave details of every decision tree in the random forrest
 print(rf_grid_estimator.score(X_train, y_train))
 
 print(rf_grid_estimator.score(X_eval, y_eval))
 
 #visualize the deciion tree
 for i, est in enumerate(rf_grid_estimator.best_estimator_.estimators_):
-    X_df = pd.DataFrame(X_train, columns=X_train.columns)
+    #We can use X_train directly anyhow
+    #X_df = pd.DataFrame(X_train, columns=X_train.columns)
     dot_data = io.StringIO() 
-    tree.export_graphviz(est, out_file = dot_data, feature_names = X_df.columns)
+    tree.export_graphviz(est, out_file = dot_data, feature_names = X_train.columns)
     graph = pydot.graph_from_dot_data(dot_data.getvalue())[0] 
     graph.write_pdf(os.path.join(dir, "tree" + str(i) + ".pdf"))

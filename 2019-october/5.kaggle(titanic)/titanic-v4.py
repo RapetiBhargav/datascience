@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 from sklearn import neighbors, model_selection, preprocessing
 
 dir = 'E:/'
@@ -12,10 +13,10 @@ lencoder.fit(titanic_train['Sex'])
 print(lencoder.classes_)
 titanic_train['Sex_encoded'] = lencoder.transform(titanic_train['Sex'])
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =imp.fit_transform(titanic_train[['Age']]) 
+print(imp.statistics_)
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex_encoded', 'Age_imputed']
 X = titanic_train[ features ]
@@ -34,19 +35,12 @@ print(knn_grid_estimator.score(X_train, y_train))
 
 print(knn_grid_estimator.score(X_eval, y_eval))
 
-#visualize the deciion tree
-dot_data = io.StringIO() 
-tree.export_graphviz(dt_grid_estimator.best_estimator_, out_file = dot_data, feature_names = X_train.columns)
-graph = pydot.graph_from_dot_data(dot_data.getvalue())[0] 
-dir = 'E:/'
-graph.write_pdf(os.path.join(dir, "tree4.pdf"))
-
 titanic_test = pd.read_csv(os.path.join(dir, 'test.csv'))
 print(titanic_test.info())
 
 titanic_test['Sex_encoded'] = lencoder.transform(titanic_test['Sex'])
-titanic_test['Age_imputed'] = imputer.transform(titanic_test[['Age']])
+titanic_test['Age_imputed'] = imp.transform(titanic_test[['Age']])
 
 X_test = titanic_test[features]
-titanic_test['Survived'] = dt_grid_estimator.best_estimator_.predict(X_test)
+titanic_test['Survived'] = knn_grid_estimator.best_estimator_.predict(X_test)
 titanic_test.to_csv(os.path.join(dir, 'submission.csv'), columns=['PassengerId', 'Survived'], index=False)

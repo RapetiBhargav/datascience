@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from sklearn import tree, model_selection, preprocessing
+import numpy as np
 import io
 import pydot
 import sklearn
@@ -16,10 +17,10 @@ lencoder.fit(titanic_train['Sex'])
 print(lencoder.classes_)
 titanic_train['Sex_encoded'] = lencoder.transform(titanic_train['Sex'])
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =imp.fit_transform(titanic_train[['Age']]) 
+print(imp.statistics_)
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex_encoded', 'Age_imputed']
 X = titanic_train[ features ]
@@ -51,7 +52,7 @@ titanic_test = pd.read_csv(os.path.join(dir, 'test.csv'))
 print(titanic_test.info())
 
 titanic_test['Sex_encoded'] = lencoder.transform(titanic_test['Sex'])
-titanic_test['Age_imputed'] = imputer.transform(titanic_test[['Age']])
+titanic_test['Age_imputed'] = imp.transform(titanic_test[['Age']])
 
 X_test = titanic_test[features]
 titanic_test['Survived'] = dt_grid_estimator.best_estimator_.predict(X_test)

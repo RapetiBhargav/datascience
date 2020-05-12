@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 from sklearn import tree, ensemble, model_selection, preprocessing
 import xgboost as xgb
 import seaborn as sns
@@ -9,12 +10,12 @@ titanic_train = pd.read_csv(os.path.join(dir, 'train.csv'))
 print(titanic_train.info())
 print(titanic_train.columns)
 
-age_imputer = preprocessing.Imputer()
-age_imputer.fit(titanic_train[['Age']])
-titanic_train['Age_imputed'] = age_imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+age_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =age_imputer.fit_transform(titanic_train[['Age']]) 
 
-fare_imputer = preprocessing.Imputer()
-fare_imputer.fit(titanic_train[['Fare']])
+fare_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+fare_imputer.fit(titanic_train[['Fare']]) 
 
 sns.countplot(x='Embarked',data=titanic_train)
 titanic_train.loc[titanic_train['Embarked'].isnull(), 'Embarked'] = 'S'
@@ -95,7 +96,7 @@ xgb_grid_estimator = model_selection.GridSearchCV(xgb_estimator, xgb_grid, scori
 xgb_grid_estimator.fit(X_train, y_train)
 print(xgb_grid_estimator.best_params_)
 print(xgb_grid_estimator.best_score_)
-print(xgb_grid_estimator.best_estimator_.estimators_)
+print(xgb_grid_estimator.best_estimator_)
 print(xgb_grid_estimator.score(X_train, y_train))
 
 print(xgb_grid_estimator.score(X_eval, y_eval))

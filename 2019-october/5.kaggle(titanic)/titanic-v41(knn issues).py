@@ -12,10 +12,9 @@ lencoder.fit(titanic_train['Sex'])
 print(lencoder.classes_)
 titanic_train['Sex_encoded'] = lencoder.transform(titanic_train['Sex'])
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+age_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =age_imputer.fit_transform(titanic_train[['Age']]) 
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex_encoded', 'Age_imputed']
 X = titanic_train[ features ]

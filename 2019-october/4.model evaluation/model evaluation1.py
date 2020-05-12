@@ -16,10 +16,10 @@ dt_estimator.fit(X_train, y_train)
 print(dt_estimator.tree_)
 model_selection.cross_val_score(dt_estimator, X_train, y_train, scoring="accuracy", cv=5).mean()
 
-#visualize the deciion tree
+#visualize the decision tree
 dot_data = io.StringIO() 
 tree.export_graphviz(dt_estimator, out_file = dot_data, feature_names = X_train.columns)
-graph = pydot.graph_from_dot_data(dot_data.getvalue())[0] 
+graph = pydot.graph_from_dot_data(dot_data.getvalue())[0]
 dir = 'E:/'
 graph.write_pdf(os.path.join(dir, "tree.pdf"))
 

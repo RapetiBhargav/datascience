@@ -16,4 +16,5 @@ titanic_test = pd.read_csv(os.path.join(dir, 'test.csv'))
 print(titanic_test.info())
 X_test = titanic_test[ ['SibSp', 'Parch'] ]
 titanic_test['Survived'] = dummy_estimator.predict(X_test)
+titanic_test.groupby('Survived').size()
 titanic_test.to_csv(os.path.join(dir, 'submission.csv'), columns=['PassengerId', 'Survived'], index=False)

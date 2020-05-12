@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 dir = 'E:/'
-titanic_train = pd.read_csv(os.path.join(dir, 'train.csv'))
+titanic_train = pd.read_csv(os.path.join(dir, 'titanic_train.csv'))
 
 #explore the structure of dataframe
 print(titanic_train.shape)
@@ -23,7 +23,7 @@ print(titanic_train[0:3])
 print(titanic_train[titanic_train.Sex=='male'])
 
 #column access with single value or list of values
-print(titanic_train[ ['Name', 'Age', 'Sex'] ])
+print(titanic_train[ ['Age', 'Sex'] ])
 print(titanic_train['Name']) #dictionary style access
 print(titanic_train.Name) #property style access
 

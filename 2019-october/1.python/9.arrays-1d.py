@@ -7,8 +7,6 @@ print(list1*10)
 #array: an indexed group of homogeneous elements
 import numpy as np
 
-dir(np)
-
 #creating array from list
 x1 = np.array([1,2,3,4,5])
 print(x1)

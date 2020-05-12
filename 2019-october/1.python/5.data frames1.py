@@ -25,15 +25,15 @@ print(df1.shape)
 print(df1.info())
 
 #retrieve any column
-df1.age
+print(df1.age)
+print(type(df1.age))
 df1['age']
-
 print(df1.index)
 print(df1.values)
 df1 = df1.set_index(df1.age)
 df1 = df1.reset_index(drop=True)
 
-titanic_train = pd.read_csv('C:/Users/Algorithmica/Downloads/titanic_train.csv')
+titanic_train = pd.read_csv('E:/titanic_train.csv')
 print(type(titanic_train))
 print(id(titanic_train))
 print(titanic_train.shape)

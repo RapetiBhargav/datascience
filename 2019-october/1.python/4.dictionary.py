@@ -14,8 +14,8 @@ print(id(persons2))
 #access of elements
 print(persons['name'])
 print(persons.get('name'))
-print(persons['survived'])
-print(persons.get('survived'))
+#print(persons['survived'])
+#print(persons.get('survived'))
 
 #manipulation of content
 persons['id'] = [1,5,7]
@@ -35,3 +35,4 @@ for x in persons2.keys():
 for x in persons2.items():
     print(x)
     print(x[0], x[1])
+    
