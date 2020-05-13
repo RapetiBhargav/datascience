@@ -1,6 +1,7 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
+import common_utils as comutils
 import classification_utils as cutils
 from sklearn import model_selection, naive_bayes, preprocessing
 import seaborn as sns
@@ -19,7 +20,7 @@ sns.distplot(X_train[:,1], hist=False)
 #grid search for parameter values
 gnb_estimator = naive_bayes.GaussianNB()
 gnb_grid  = {'priors':[None] }
-final_estimator = cutils.grid_search_best_model(gnb_estimator, gnb_grid, X_train, y_train)
+final_estimator = comutils.grid_search_best_model(gnb_estimator, gnb_grid, X_train, y_train)
 cutils.plot_model_2d_classification(final_estimator, X_train, y_train)
 
 final_estimator.predict_proba(X_test)

@@ -4,7 +4,7 @@ import seaborn as sns
 import numpy as np
 import math
 from itertools import product, cycle
-from sklearn import covariance, preprocessing, tree, svm, neighbors, metrics, linear_model, manifold, linear_model
+from sklearn import covariance, preprocessing, tree, svm, neighbors, metrics, linear_model, manifold
 from sklearn import model_selection, ensemble, preprocessing, decomposition, feature_selection
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap

@@ -1,6 +1,7 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
+import common_utils as comutils
 import classification_utils as cutils
 from sklearn import model_selection, linear_model
 
@@ -11,7 +12,7 @@ cutils.plot_data_2d_classification(X_train, y_train)
 
 lr_estimator = linear_model.LogisticRegression()
 lr_grid  = {'penalty':['l1', 'l2'], 'C':[0.01, 0.001, 0.1, 0.3, 0.5, 0.7, 1] }
-final_estimator = cutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
+final_estimator = comutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
 print(final_estimator.intercept_)
 print(final_estimator.coef_)
 cutils.plot_model_2d_classification(final_estimator, X_train, y_train)
@@ -27,7 +28,7 @@ cutils.plot_data_2d_classification(X_train, y_train)
 
 lr_estimator = linear_model.LogisticRegression()
 lr_grid  = {'penalty':['l1', 'l2'], 'C':[0.01, 0.001, 0.1, 0.3, 0.5, 0.7, 1] }
-final_estimator = cutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
+final_estimator = comutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
 print(final_estimator.intercept_)
 print(final_estimator.coef_)
 cutils.plot_model_2d_classification(final_estimator, X_train, y_train)
@@ -42,7 +43,7 @@ cutils.plot_data_2d_classification(X_train, y_train)
 
 lr_estimator = linear_model.LogisticRegression()
 lr_grid  = {'penalty':['l1', 'l2'], 'C':[0.01, 0.001, 0.1, 0.3, 0.5, 0.7, 1] }
-final_estimator = cutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
+final_estimator = comutils.grid_search_best_model(lr_estimator, lr_grid, X_train, y_train, scoring='roc_auc')
 print(final_estimator.intercept_)
 print(final_estimator.coef_)
 cutils.plot_model_2d_classification(final_estimator, X_train, y_train)

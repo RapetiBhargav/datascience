@@ -1,6 +1,7 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
+import common_utils as comutils
 import kernel_utils as kutils
 import classification_utils as cutils
 from sklearn import model_selection, linear_model, svm, preprocessing, pipeline, neural_network
@@ -21,7 +22,7 @@ stages = [
         ]
 perceptron_pipeline = pipeline.Pipeline(stages)
 perceptron_pipeline_grid  = {'features__gamma':[0.1, 0.01, 0.2]}
-pipeline_object = cutils.grid_search_best_model(perceptron_pipeline, perceptron_pipeline_grid, X_train, y_train)
+pipeline_object = comutils.grid_search_best_model(perceptron_pipeline, perceptron_pipeline_grid, X_train, y_train)
 final_estimator = pipeline_object.named_steps['clf']
 print(final_estimator.intercept_)
 print(final_estimator.coef_)
@@ -35,7 +36,7 @@ stages = [
 
 lr_pipeline = pipeline.Pipeline(stages)
 lr_pipeline_grid  = {'features__gamma':[0.1, 1, 5,10]}
-pipeline_object = cutils.grid_search_best_model(lr_pipeline, lr_pipeline_grid, X_train, y_train)
+pipeline_object = comutils.grid_search_best_model(lr_pipeline, lr_pipeline_grid, X_train, y_train)
 final_estimator = pipeline_object.named_steps['clf']
 print(final_estimator.intercept_)
 cutils.plot_model_2d_classification(pipeline_object, X_train, y_train)
@@ -47,7 +48,7 @@ stages = [
         ]
 svm_pipeline = pipeline.Pipeline(stages)
 svm_pipeline_grid  = {'clf__penalty':['l2'], 'clf__C':[0.01, 0.1, 0.3, 0.5], 'features__degree':[2,3,5,10, 50, 100]}
-pipeline_object = cutils.grid_search_best_model(svm_pipeline, svm_pipeline_grid, X_train, y_train)
+pipeline_object = comutils.grid_search_best_model(svm_pipeline, svm_pipeline_grid, X_train, y_train)
 final_estimator = pipeline_object.named_steps['clf']
 print(final_estimator.intercept_)
 print(final_estimator.coef_)

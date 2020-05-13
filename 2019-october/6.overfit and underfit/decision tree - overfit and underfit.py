@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import numpy as np
 from sklearn import tree, model_selection, preprocessing
 import io
 import pydot
@@ -14,10 +15,9 @@ lencoder.fit(titanic_train['Sex'])
 print(lencoder.classes_)
 titanic_train['Sex_encoded'] = lencoder.transform(titanic_train['Sex'])
 
-imputer = preprocessing.Imputer()
-imputer.fit(titanic_train[['Age']])
-print(imputer.statistics_)
-titanic_train['Age_imputed'] = imputer.transform(titanic_train[['Age']])
+from sklearn.impute import SimpleImputer
+age_imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+titanic_train['Age_imputed'] =age_imputer.fit_transform(titanic_train[['Age']]) 
 
 features = ['SibSp', 'Parch', 'Pclass', 'Sex_encoded', 'Age_imputed']
 X_train = titanic_train[ features ]
@@ -41,7 +41,7 @@ print(titanic_test.info())
 
 #fit must only be performed only on train data since it must reflect the learnign from train data only
 titanic_test['Sex_encoded'] = lencoder.transform(titanic_test['Sex'])
-titanic_test['Age_imputed'] = imputer.transform(titanic_test[['Age']])
+titanic_test['Age_imputed'] = age_imputer.transform(titanic_test[['Age']])
 
 X_test = titanic_test[features]
 titanic_test['Survived'] = dt_estimator.predict(X_test)

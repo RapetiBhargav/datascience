@@ -181,9 +181,6 @@ def plot_model_3d_regression(estimator, X, y, ax=None, x_limit=None, y_limit=Non
             ax.view_init(20, angle)
             plt.draw()
             plt.pause(.1) 
-            
-def rmse(y_orig, y_pred):
-    return math.sqrt(metrics.mean_squared_error(y_orig,y_pred) )
 
 def grid_search_plot_models_3d_regression(estimator, grid, X, y, xlim=None, ylim=None, zlim=None):
     items = sorted(grid.items())

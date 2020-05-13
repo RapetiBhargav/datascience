@@ -1,5 +1,5 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
 import classification_utils as cutils
 from sklearn import preprocessing

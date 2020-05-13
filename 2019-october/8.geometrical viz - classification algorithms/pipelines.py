@@ -1,6 +1,7 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
+import common_utils as comutils
 import classification_utils as cutils
 from sklearn import preprocessing, linear_model, pipeline
 
@@ -15,7 +16,7 @@ stages = [
         ]
 perceptron_pipeline = pipeline.Pipeline(stages)
 perceptron_pipeline_grid  = {'perceptron__penalty':['l1'], 'perceptron__alpha':[0, 0.1, 0.3, 0.5], 'features__degree':[2,3]}
-pipeline_object = cutils.grid_search_best_model(perceptron_pipeline, perceptron_pipeline_grid, X, y)
+pipeline_object = comutils.grid_search_best_model(perceptron_pipeline, perceptron_pipeline_grid, X, y)
 final_estimator = pipeline_object.named_steps['perceptron']
 print(final_estimator.intercept_)
 print(final_estimator.coef_)

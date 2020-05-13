@@ -1,7 +1,7 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("D:/AlgorithmicaCode/datascience/2019-october/utils")
 
-import classification_utils as cutils
+import common_utils as cutils
 from sklearn import model_selection, linear_model, datasets
 import numpy as np
 

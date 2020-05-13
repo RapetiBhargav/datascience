@@ -1,5 +1,5 @@
 import sys
-sys.path.append("E:/New Folder/utils")
+sys.path.append("E:/utils")
 
 import kernel_utils as kutils
 import classification_utils as cutils
